@@ -13,6 +13,12 @@ jobs:
           java-version: 11
       - run: unzip -q launcher_sourses_ready.zip
       - run: chmod +x ls/gradlew
+      - name: Fix dependencies
+        run: |
+          cd ls
+          sed -i 's/jcenter()/jcenter()\n        mavenCentral()/' build.gradle
+          sed -i '/libp7zip/d' app/build.gradle
+          sed -i 's/volley:1.1.0/volley:1.2.1/' app/build.gradle
       - run: cd ls && ./gradlew assembleDebug
       - uses: actions/upload-artifact@v4
         with:
