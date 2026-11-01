@@ -16,8 +16,8 @@ jobs:
       - name: Fix dependencies
         run: |
           cd ls
-          sed -i 's/jcenter()/jcenter()\n        mavenCentral()/' build.gradle
-          sed -i '/libp7zip/d' app/build.gradle
+          sed -i "s#jcenter()#jcenter()\n        mavenCentral()\n        maven { url 'https://maven.aliyun.com/repository/jcenter' }\n        maven { url 'https://maven.aliyun.com/repository/public' }#" build.gradle
+          sed -i '/libp7zip/d;/mkloader/d;/mobmetricalib/d' app/build.gradle
           sed -i 's/volley:1.1.0/volley:1.2.1/' app/build.gradle
       - run: cd ls && ./gradlew assembleDebug
       - uses: actions/upload-artifact@v4
